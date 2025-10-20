@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hai Sayang 💖</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #fff9b0, #fff705);
+      margin: 0;
+      padding: 0;
+      color: #333;
+      text-align: center;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      color: #ff4081;
+      transition: opacity 0.5s ease;
+    }
+
+    #countdown {
+      font-size: 2em;
+      font-weight: bold;
+      color: #ff007f;
+      margin-top: 20px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    input {
+      padding: 10px;
+      margin: 5px;
+      width: 80%;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #ff4081;
+      color: white;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background-color: #e91e63;
+    }
+
+    /* Slideshow */
+    .slideshow-container {
+      position: relative;
+      max-width: 400px;
+      margin: 20px auto;
+    }
+
+    .mySlides {
+      display: none;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .mySlides img {
+      width: 100%;
+      border-radius: 20px;
+    }
+
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      padding: 10px;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      border-radius: 50%;
+      user-select: none;
+      background-color: rgba(0,0,0,0.4);
+      transform: translateY(-50%);
+    }
+
+    .next { right: 10px; }
+    .prev { left: 10px; }
+
+    .message {
+      margin-top: 30px;
+      background-color: white;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      color: #444;
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 id="judul">Isi Ini Dulu Ya</h1>
+    <p id="countdown" class="hidden"></p>
+
+    <!-- Form Input -->
+    <div id="formSection">
+      <input type="text" id="nama" placeholder="Nama siapa nih 💛"><br>
+      <input type="date" id="tanggal"><br>
+      <button onclick="mulaiCountdown()">Oke</button>
+      <p id="pesanError" style="color:red;font-weight:bold;"></p>
+    </div>
+
+    <!-- Ucapan -->
+    <div id="ucapanSection" class="hidden">
+      <h2 id="judulUcapan">🎉 Selamat Ulang Tahun 🎉</h2>
+
+      <!-- Slideshow -->
+      <div class="slideshow-container">
+        <div class="mySlides fade"><img src="img/cia.jpg" alt="Foto 1"></div>
+        <div class="mySlides fade"><img src="img/cia2.jpg" alt="Foto 2"></div>
+        <div class="mySlides fade"><img src="img/cia3.jpg" alt="Foto 3"></div>
+        <div class="mySlides fade"><img src="img/cia4.jpg" alt="Foto 4"></div>
+        <div class="mySlides fade"><img src="img/cia5.jpg" alt="Foto 5"></div>
+
+        <a class="prev" onclick="plusSlides(-1)">❮</a>
+        <a class="next" onclick="plusSlides(1)">❯</a>
+      </div>
+
+      <!-- Pesan -->
+      <div class="message" id="pesanUcapan">
+        <p>
+          Selamat ulang tahun pacar. Makasih ya udah jadi pacar yang baik, cantik, gemesin.
+          Semoga di hari ulang tahunmu kamu semakin ceria, KKN-nya dilancarkan, dan proses pengerjaan KTI/Skripsi/Tugas Akhir-nya dilancarkan.  
+          Kalau capek jangan lupa istirahat ya. Abang akan nemanin Cia meskipun dari jauh.  
+          Sehat-sehat ya cantiknya abang. Abang mencintai dan menyayangi Cia.  
+          Sekali lagi selamat ulang tahun ya sayang 💖  
+          <b>I love you 💖</b>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let countdownInterval;
+
+    function mulaiCountdown() {
+      const nama = document.getElementById('nama').value.trim();
+      const tanggal = document.getElementById('tanggal').value;
+
+      if (!nama || !tanggal) {
+        document.getElementById('pesanError').innerText = "Isi dulu nama dan tanggal ulang tahunnya ya 💛";
+        return;
+      }
+
+      document.getElementById('pesanError').innerText = "";
+      document.getElementById('formSection').classList.add('hidden');
+      document.getElementById('judul').style.display = 'none';
+
+      const countdownElement = document.getElementById('countdown');
+      countdownElement.classList.remove('hidden');
+
+      const targetDate = new Date(tanggal + "T00:00:00");
+
+      countdownInterval = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = targetDate.getTime() - now;
+
+        if (distance <= 0) {
+          clearInterval(countdownInterval);
+          countdownElement.innerHTML = "🎉 Sudah jam 00:00 🎉";
+          tampilkanUcapan(nama);
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        let sisaHari = days > 0 ? `${days} hari ` : "";
+        countdownElement.innerHTML = `${sisaHari}${hours} jam ${minutes} menit ${seconds} detik lagi 💛`;
+      }, 1000);
+    }
+
+    function tampilkanUcapan(nama) {
+      const countdownElement = document.getElementById('countdown');
+      countdownElement.classList.add('hidden');
+
+      const ucapanSection = document.getElementById('ucapanSection');
+      ucapanSection.classList.remove('hidden');
+
+      const judulUcapan = document.getElementById('judulUcapan');
+      judulUcapan.innerHTML = `🎉 Selamat Ulang Tahun ${nama} 💖`;
+      judulUcapan.style.opacity = 0;
+      judulUcapan.style.transition = "opacity 2s ease-in";
+      setTimeout(() => judulUcapan.style.opacity = 1, 300);
+
+      tampilkanSlide(slideIndex);
+      confetti();
+    }
+
+    function confetti() {
+      const colors = ["#ff4081", "#fff705", "#ff9ff3", "#feca57"];
+      const numConfetti = 100;
+
+      for (let i = 0; i < numConfetti; i++) {
+        const conf = document.createElement("div");
+        conf.style.position = "fixed";
+        conf.style.top = "-10px";
+        conf.style.left = Math.random() * window.innerWidth + "px";
+        conf.style.width = "8px";
+        conf.style.height = "12px";
+        conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        conf.style.opacity = Math.random();
+        conf.style.transform = `rotate(${Math.random() * 360}deg)`;
+        conf.style.borderRadius = "2px";
+        conf.style.zIndex = "9999";
+        conf.style.pointerEvents = "none";
+        document.body.appendChild(conf);
+
+        const duration = 4000 + Math.random() * 3000;
+        conf.animate(
+          [
+            { transform: `translateY(0px) rotate(0deg)`, opacity: 1 },
+            { transform: `translateY(${window.innerHeight + 100}px) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+          ],
+          { duration, easing: "ease-in", iterations: 1, fill: "forwards" }
+        );
+        setTimeout(() => conf.remove(), duration);
+      }
+    }
+
+    // === SLIDESHOW ===
+    let slideIndex = 1;
+    function plusSlides(n) {
+      tampilkanSlide(slideIndex += n);
+    }
+
+    function tampilkanSlide(n) {
+      const slides = document.getElementsByClassName("mySlides");
+      if (n > slides.length) slideIndex = 1;
+      if (n < 1) slideIndex = slides.length;
+
+      for (let i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slides[slideIndex - 1].style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
